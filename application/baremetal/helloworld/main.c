@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include "nuclei_sdk_soc.h"
 
+static uint8_t *buffer2;
+//static uint8_t buffer[100];
+
 void print_misa(void)
 {
     CSR_MISA_Type misa_bits = (CSR_MISA_Type) __RV_CSR_READ(CSR_MISA);
@@ -85,6 +88,13 @@ void print_misa(void)
 
 int main(void)
 {
+    //static uint8_t buffer[180 * 60 * 2];
+    buffer2 = (uint8_t *) malloc(180 * 60 * 2);
+    if (NULL == buffer2) {
+        printf("malloc failed\r\n");
+    } else {
+        printf("malloc OK\r\n");
+    }
     srand(__get_rv_cycle()  | __get_rv_instret() | __RV_CSR_READ(CSR_MCYCLE));
     uint32_t rval = rand();
     rv_csr_t misa = __RV_CSR_READ(CSR_MISA);
